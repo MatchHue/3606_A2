@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.816018640_and_816015043">
         <activity
-            android:name=".MainActivity"
+            android:name="com.hfad.a816018640_and_816015043.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
