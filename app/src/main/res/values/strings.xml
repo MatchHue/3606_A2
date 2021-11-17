@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">816018640_and_816015043</string>
+    <string name="Title">Management</string>
     <string-array name="options">
         <item>Receiving Stocks</item>
         <item>Ordering Stocks</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
