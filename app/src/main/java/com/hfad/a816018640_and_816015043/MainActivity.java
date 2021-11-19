@@ -23,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
         replaceFragment(new ReceivingStocksFragment());
     }
 
+    public void orderClick(View View){
+        replaceFragment(new OrderingStocksFragment());
+    }
 
     private void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager=getSupportFragmentManager();

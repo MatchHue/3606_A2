@@ -39,6 +39,7 @@
         android:id="@+id/orderStock"
         android:layout_width="160dp"
         android:layout_height="81dp"
+        android:onClick="orderClick"
         android:text="@string/order"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
