@@ -8,7 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,22 @@ public class ReceivingStocksFragment extends Fragment {
     private SQLiteDatabase db;
     private  Cursor cursor;
     private Button btn;
+    private long id;
+
+    @Override
+    public void onCreate(Bundle savedInstaceState){
+        super.onCreate(savedInstaceState);
+        if(savedInstaceState==null){
+            OutputViewFragment nest=new OutputViewFragment();
+            FragmentTransaction ft= getChildFragmentManager().beginTransaction();
+            ft.add(R.id.NestedFrag,nest);
+            ft.addToBackStack(null);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.commit();
+        }else {
+            id=savedInstaceState.getLong("id");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,9 +76,17 @@ public class ReceivingStocksFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                     String spinnerText=spinner.getSelectedItem().toString();
                     EditText editText=(EditText)getActivity().findViewById(R.id.edittext);
                     String text=editText.getText().toString();
+
+                    if(TextUtils.isEmpty(text)){
+                        editText.setError("Please enter data");
+                        return;
+                    }
+
 
                     SQLiteOpenHelper upHelp=new SqlDatabase(getActivity());
                     SQLiteDatabase uDB=upHelp.getReadableDatabase();
@@ -75,16 +101,13 @@ public class ReceivingStocksFragment extends Fragment {
                   int newSiT;
                   if(SiT<Integer.parseInt(text)){
                       newSiT=0;
-                      Toast.makeText(getActivity(),"EDITTEXT LARGER",Toast.LENGTH_SHORT).show();
                   }else{
                       newSiT=SiT-Integer.parseInt(text);
-                      Toast.makeText(getActivity(),"EDITTEXT SMALLER",Toast.LENGTH_SHORT).show();
                   }
                 ContentValues cv=new ContentValues();
-                  cv.put("StockOnHand",newSohValue);
+                  cv.put("StockOnHand",newSoH);
                   cv.put("StockInTransit",newSiT);
                   uDB.update("Product",cv,"Name=?",new String[]{spinnerText});
-                Toast.makeText(getActivity(),newSohValue,Toast.LENGTH_SHORT).show();
                 uDB.close();
                 c.close();
             }
@@ -103,6 +126,5 @@ public class ReceivingStocksFragment extends Fragment {
         cursor.close();
         db.close();
     }
-
 
 }

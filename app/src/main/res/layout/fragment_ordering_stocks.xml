@@ -70,7 +70,7 @@
         app:layout_constraintVertical_bias="0.384" />
 
     <Button
-        android:id="@+id/update"
+        android:id="@+id/makeOrder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/makeOrder"
@@ -79,5 +79,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.553" />
+
+    <FrameLayout
+        android:id="@+id/NestedFrag"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/makeOrder"
+        tools:layout_editor_absoluteX="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

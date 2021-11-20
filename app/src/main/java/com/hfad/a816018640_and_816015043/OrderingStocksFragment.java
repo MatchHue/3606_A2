@@ -1,5 +1,6 @@
 package com.hfad.a816018640_and_816015043;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -7,13 +8,16 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
@@ -31,6 +35,28 @@ public class OrderingStocksFragment extends Fragment {
     private SQLiteDatabase db;
     private Cursor cursor;
     private Button btn;
+
+
+    private long id;
+
+    @Override
+    public void onCreate(Bundle savedInstaceState){
+        super.onCreate(savedInstaceState);
+        if(savedInstaceState==null){
+            OutputViewFragment nest=new OutputViewFragment();
+            FragmentTransaction ft= getChildFragmentManager().beginTransaction();
+            ft.add(R.id.NestedFrag,nest);
+            ft.addToBackStack(null);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.commit();
+        }else {
+            id=savedInstaceState.getLong("id");
+        }
+    }
+
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,7 +94,31 @@ public class OrderingStocksFragment extends Fragment {
             Toast.makeText(getActivity(),"Database Unavailabe", Toast.LENGTH_LONG).show();
         }
 
+        btn=view.findViewById(R.id.makeOrder);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String spinnertext=spinner.getSelectedItem().toString();
+                EditText editText=(EditText) getActivity().findViewById(R.id.edittext);
+                String text=editText.getText().toString();
 
+                if(TextUtils.isEmpty(text)){
+                    editText.setError("Please enter data");
+                    return;
+                }
+
+                SQLiteOpenHelper newHelper=new SqlDatabase(getActivity());
+                SQLiteDatabase newDb=newHelper.getWritableDatabase();
+                Cursor c=newDb.rawQuery("Select StockOnHand,StockInTransit FROM Product where name=?",
+                new String[]{spinnertext});
+                c.moveToFirst();
+                int SiT=Integer.parseInt(c.getString(1));
+                int newSiT=SiT+Integer.parseInt(text);
+                ContentValues cv=new ContentValues();
+                cv.put("StockInTransit",newSiT);
+                newDb.update("Product",cv,"Name=?",new String[]{spinnertext});
+            }
+        });
 
     return view;
     }
@@ -79,5 +129,7 @@ public class OrderingStocksFragment extends Fragment {
         cursor.close();
         db.close();
     }
+
+
 
 }
