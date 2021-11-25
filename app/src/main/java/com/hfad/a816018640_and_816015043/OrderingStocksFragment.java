@@ -39,6 +39,7 @@ public class OrderingStocksFragment extends Fragment {
 
     private long id;
 
+    //Setting the Nested Fragments
     @Override
     public void onCreate(Bundle savedInstaceState){
         super.onCreate(savedInstaceState);
@@ -63,6 +64,7 @@ public class OrderingStocksFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_ordering_stocks, container, false);
 
+        //Setting the spinner data as well as the item data.
         Spinner spinner=(Spinner)view.findViewById(R.id.Orderspinner);
         TextView listView=(TextView) view.findViewById(R.id.ListProducts);
         SQLiteOpenHelper helper=new SqlDatabase(getActivity());
@@ -94,6 +96,8 @@ public class OrderingStocksFragment extends Fragment {
             Toast.makeText(getActivity(),"Database Unavailabe", Toast.LENGTH_LONG).show();
         }
 
+
+        //On click listener for makeOrder button
         btn=view.findViewById(R.id.makeOrder);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,11 +106,13 @@ public class OrderingStocksFragment extends Fragment {
                 EditText editText=(EditText) getActivity().findViewById(R.id.edittext);
                 String text=editText.getText().toString();
 
+                //Error handling for empty text field
                 if(TextUtils.isEmpty(text)){
                     editText.setError("Please enter data");
                     return;
                 }
 
+                //Adding data to database
                 SQLiteOpenHelper newHelper=new SqlDatabase(getActivity());
                 SQLiteDatabase newDb=newHelper.getWritableDatabase();
                 Cursor c=newDb.rawQuery("Select StockOnHand,StockInTransit FROM Product where name=?",
@@ -117,6 +123,16 @@ public class OrderingStocksFragment extends Fragment {
                 ContentValues cv=new ContentValues();
                 cv.put("StockInTransit",newSiT);
                 newDb.update("Product",cv,"Name=?",new String[]{spinnertext});
+
+                OutputViewFragment nest=new OutputViewFragment();
+                FragmentTransaction ft= getChildFragmentManager().beginTransaction();
+                ft.add(R.id.NestedFrag,nest);
+                ft.addToBackStack(null);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                ft.commit();
+
+                newDb.close();
+                c.close();
             }
         });
 

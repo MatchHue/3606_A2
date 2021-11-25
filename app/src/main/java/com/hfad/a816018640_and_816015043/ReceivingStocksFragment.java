@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -108,7 +109,16 @@ public class ReceivingStocksFragment extends Fragment {
                   cv.put("StockOnHand",newSoH);
                   cv.put("StockInTransit",newSiT);
                   uDB.update("Product",cv,"Name=?",new String[]{spinnerText});
-                uDB.close();
+
+
+                OutputViewFragment nest=new OutputViewFragment();
+                FragmentTransaction ft= getChildFragmentManager().beginTransaction();
+                ft.add(R.id.NestedFrag,nest);
+                ft.addToBackStack(null);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                ft.commit();
+
+                  uDB.close();
                 c.close();
             }
         });
@@ -116,9 +126,6 @@ public class ReceivingStocksFragment extends Fragment {
         return view;
     }
 
-    public void updateDb(View view){
-
-    }
 
     @Override
     public void onDestroy(){
