@@ -45,6 +45,9 @@ class SqlDatabase extends SQLiteOpenHelper {
         if(oldVersion<2){
             db.execSQL("ALTER TABLE Product ADD COLUMN FAVORITE NUMERIC");
         }
+        if (oldVersion < 3) {
+            db.execSQL("ALTER TABLE Product ADD COLUMN DIRTY BIT default 'FALSE'");
+        }
     }
     }
 
