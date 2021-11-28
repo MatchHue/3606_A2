@@ -46,7 +46,7 @@ public class OutputViewFragment extends Fragment {
                 Sb.append(cursor.getString(2));
                 Sb.append("\tStockInTransit \t");
                 Sb.append(cursor.getString(3));
-                Sb.append("\tReorderQunaity \t");
+                Sb.append("\tReorderQuantity \t");
                 Sb.append(cursor.getString(5));
                 Sb.append("\tReorderAmount \t");
                 Sb.append(cursor.getString(6));
@@ -63,7 +63,7 @@ public class OutputViewFragment extends Fragment {
             listView.setText(Sb);
 
         }catch(SQLiteException e){
-            Toast.makeText(getActivity(),"Database Unavailabe", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"Database Unavailable", Toast.LENGTH_LONG).show();
         }
 
     return view;
