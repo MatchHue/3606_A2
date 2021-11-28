@@ -63,8 +63,8 @@
 
     <FrameLayout
         android:id="@+id/FragmentView"
-        android:layout_width="890dp"
-        android:layout_height="965dp"
+        android:layout_width="684dp"
+        android:layout_height="958dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
