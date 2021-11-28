@@ -41,9 +41,9 @@ public class OrderingStocksFragment extends Fragment {
 
     //Setting the Nested Fragments
     @Override
-    public void onCreate(Bundle savedInstaceState){
-        super.onCreate(savedInstaceState);
-        if(savedInstaceState==null){
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        if(savedInstanceState==null){
             OutputViewFragment nest=new OutputViewFragment();
             FragmentTransaction ft= getChildFragmentManager().beginTransaction();
             ft.add(R.id.NestedFrag,nest);
@@ -51,7 +51,7 @@ public class OrderingStocksFragment extends Fragment {
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.commit();
         }else {
-            id=savedInstaceState.getLong("id");
+            id=savedInstanceState.getLong("id");
         }
     }
 
@@ -81,7 +81,7 @@ public class OrderingStocksFragment extends Fragment {
                 Sb.append(cursor.getString(2));
                 Sb.append("\tStockInTransit \t");
                 Sb.append(cursor.getString(3));
-                Sb.append("\tReorderQunaity \t");
+                Sb.append("\tReorderQuantity \t");
                 Sb.append(cursor.getString(5));
                 Sb.append("\tReorderAmount \t");
                 Sb.append(cursor.getString(6));
@@ -93,7 +93,7 @@ public class OrderingStocksFragment extends Fragment {
             spinner.setAdapter(adapter);
 
         }catch(SQLiteException e){
-            Toast.makeText(getActivity(),"Database Unavailabe", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"Database Unavailable", Toast.LENGTH_LONG).show();
         }
 
 

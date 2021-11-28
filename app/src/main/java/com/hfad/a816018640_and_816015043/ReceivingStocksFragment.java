@@ -66,7 +66,7 @@ public class ReceivingStocksFragment extends Fragment {
             spinner.setAdapter(adapter);
 
         }catch(SQLiteException e){
-            Toast.makeText(getActivity(),"Database Unavailabe", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"Database Unavailable", Toast.LENGTH_LONG).show();
         }
 
         btn=view.findViewById(R.id.update);
